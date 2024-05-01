@@ -1,5 +1,3 @@
-// Searching.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
 /* Homework #6, Aaliyah Madison */
 
 #include <iostream>
@@ -13,6 +11,7 @@ class Graph {
 
 public:
 
+    //creates the directed graph edges
     void addEdge(char src, char dest) {
         int srcIndex = src - 'A';
         int destIndex = dest - 'A';
@@ -27,16 +26,29 @@ public:
             }
             std::cout << endl;
         }
+    }
 
+    vector<char> DFS(char start) {
+        
     }
 
 private:
+    //adjacency list
     vector<char> adjList[N];
 };
 
 
 void Menu() {
-    //created directed graph
+    std::cout << endl;
+    std::cout << std::setw(25) << "M E N U" << endl;
+    std::cout << "Depth-First Search (0), Minimum Path Search (1)" << endl;
+    std::cout << "Exit Program(2)" << endl << endl;
+}
+
+
+int main()
+{
+    //create directed graph
     Graph G;
     G.addEdge('A', 'B');
     G.addEdge('A', 'C');
@@ -57,17 +69,8 @@ void Menu() {
     G.addEdge('H', 'I');
     G.addEdge('I', 'F');
 
-    G.printGraph();
+    //G.printGraph();
 
-    std::cout << endl;
-    std::cout << std::setw(25) << "M E N U" << endl;
-    std::cout << "Depth-First Search (0), Minimum Path Search (1)" << endl;
-    std::cout << "Exit Program(2)" << endl << endl;
-}
-
-
-int main()
-{
     int menuValue;
 
     do {
