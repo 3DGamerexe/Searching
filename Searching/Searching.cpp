@@ -3,32 +3,100 @@
 #include <iostream>
 #include <iomanip>
 #include <vector>
+//#include <stack>
+#include <unordered_map>
 using namespace std;
 
 const int N = 9;
+//node class for the stack implementation
+class Node {
+
+public:
+    class Stack;
+
+    Node() {
+        next = 0;
+    }
+    Node(char i, Node* in = nullptr) {
+        info = i;
+        next = in;
+    }
+    char info;
+    Node* next;
+};
+
+//stack functions
+class Node::Stack {
+public:
+    Node* top = nullptr;
+    Node* tmp = nullptr;
+
+    //pushes to the top of the stack
+    void push(char value) {
+        Node* tmp = new Node(value);
+        tmp->next = top;
+        top = tmp;
+    }
+
+    //removes from the top of the stack
+    void pop() {
+        if (top == nullptr) {
+            return;
+        }
+        Node* tmp = top;
+        top = top->next;
+        delete tmp;
+        /*while (tmp->next != top) {
+            tmp = tmp->next;
+        }
+        delete top;
+        top = tmp;
+        top->next = nullptr;*/
+    }
+
+    bool empty() const {
+        return top == nullptr;
+    }
+
+    //prints the Stack
+    void print() {
+        while (top != nullptr) {
+            std::cout << top->info << " ";
+            top = top->next;
+        }
+    }
+};
 
 class Graph {
 
 public:
-
+    
     //creates the directed graph edges
     void addEdge(char src, char dest) {
-        int srcIndex = src - 'A';
-        int destIndex = dest - 'A';
-        adjList[srcIndex].push_back(destIndex);
+        adjList[src].push_back(dest);
     }
 
-    void printGraph() {
-        for (int i = 0; i < N; i++) {
-            std::cout << "Vertex " << char('A' + i) << " : ";
-            for (char adj : adjList[i]) {
-                std::cout << (char)('A' + adj) << " ";
+
+    void DFS(char start) {
+        std:unordered_map<char, bool> visited;
+        Node::Stack stack; 
+
+        stack.push(start);
+        visited[start] = true;
+
+        while (!stack.empty()) {
+            char currentNode = stack.top->info;
+            stack.pop();
+            std::cout << currentNode << " ";
+
+            for (char adj : adjList[currentNode]) {
+                if (!visited[adj]) {
+                    stack.push(adj);
+                    visited[adj] = true;
+                }
             }
-            std::cout << endl;
         }
-    }
 
-    vector<char> DFS(char start) {
         
     }
 
@@ -38,13 +106,13 @@ private:
 };
 
 
+
 void Menu() {
     std::cout << endl;
     std::cout << std::setw(25) << "M E N U" << endl;
     std::cout << "Depth-First Search (0), Minimum Path Search (1)" << endl;
     std::cout << "Exit Program(2)" << endl << endl;
 }
-
 
 int main()
 {
@@ -86,7 +154,9 @@ int main()
         else {
             switch (menuValue) {
             case 0:
-                cout << "Working" << endl;
+                char value;
+                std::cin >> value;
+                G.DFS(value);
                 break;
             }
         }
